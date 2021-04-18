@@ -1,13 +1,16 @@
-var express = require('express')
-var app = express();
-var config = require('./config/default.json');
-var customers = require('./controllers/customers');
-app.use('/customers',customers);
+//Variables declaration
+var loaders = require('./loaders/loader');
+var app = loaders.express();
+var port = loaders.config.server.port;
+//Middleware
+app.use('/customers',loaders.customer_routes);
+//Business logic
+loaders.connection.db_connect();
 app.get('/',(req,res)=>{
-	res.render('index');
+	res.send('Hello World');
 	});
-var port = config.server.port;
 app.listen(port,(err) => {
 	if(err) console.log(err);
-	else {console.log('Server running on port : ' + port);}
+	else {console.log('Server running on port : ' + port);	
+	}
 	});	
